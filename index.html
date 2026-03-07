@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Re-CC | 教員・元教員のためのコミュニティ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Shippori+Mincho:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f5f0e8;
+    --cream: #ede7d9;
+    --forest: #2d5016;
+    --sage: #5a7a3a;
+    --moss: #8aaa60;
+    --gold: #c8a84b;
+    --gold-light: #e8d090;
+    --warm-white: #faf7f2;
+    --mist: #e8e0d0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--warm-white);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background: var(--forest);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-lines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 80px,
+      rgba(255,255,255,0.015) 80px,
+      rgba(255,255,255,0.015) 81px
+    );
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .hero-orb-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(138,170,96,0.25) 0%, transparent 70%);
+    top: -100px; right: -100px;
+  }
+  .hero-orb-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(200,168,75,0.15) 0%, transparent 70%);
+    bottom: 50px; left: -50px;
+  }
+
+  .nav {
+    padding: 28px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 10;
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .nav-badge {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.65rem;
+    color: var(--gold-light);
+    letter-spacing: 0.2em;
+    border: 1px solid rgba(200,168,75,0.4);
+    padding: 6px 16px;
+    border-radius: 2px;
+  }
+
+  .hero-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    position: relative;
+    z-index: 5;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: var(--moss);
+    margin-bottom: 32px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+
+  .hero-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.3;
+    color: #fff;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.5s;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+    font-family: 'DM Serif Display', serif;
+  }
+
+  .hero-divider {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin: 32px auto;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    line-height: 2;
+    color: rgba(255,255,255,0.65);
+    max-width: 560px;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+
+  .hero-cta-wrap {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, var(--gold) 0%, #a8882a 100%);
+    color: #1a1200;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    padding: 18px 44px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(200,168,75,0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(200,168,75,0.45);
+  }
+
+  .btn-note {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.1em;
+  }
+
+  .hero-footer {
+    padding: 32px 48px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 5;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.5s;
+  }
+
+  .scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── NOT ABOUT QUITTING ── */
+  .section-clarify {
+    background: var(--warm-white);
+    padding: 120px 24px;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .container-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .section-label-line {
+    flex: 0 0 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-label-text {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--sage);
+    text-transform: uppercase;
+  }
+
+  .clarify-lead {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
+    font-weight: 600;
+    line-height: 1.7;
+    color: var(--forest);
+    margin-bottom: 32px;
+  }
+
+  .clarify-lead strong {
+    color: var(--gold);
+  }
+
+  .clarify-body {
+    font-size: 0.95rem;
+    line-height: 2.2;
+    color: #444;
+    margin-bottom: 24px;
+  }
+
+  .three-col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--mist);
+    margin: 64px 0;
+    border: 1px solid var(--mist);
+  }
+
+  .three-col-item {
+    background: var(--warm-white);
+    padding: 36px 28px;
+    text-align: center;
+  }
+
+  .three-col-icon {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .three-col-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--forest);
+    line-height: 1.8;
+  }
+
+  /* ── CAREER DEFINITION ── */
+  .section-career {
+    background: var(--cream);
+    padding: 120px 24px;
+  }
+
+  .career-quote {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-style: italic;
+    color: var(--forest);
+    text-align: center;
+    line-height: 1.5;
+    margin: 48px 0;
+    position: relative;
+    padding: 0 48px;
+  }
+
+  .career-quote::before,
+  .career-quote::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    top: 50%;
+  }
+
+  .career-quote::before { left: 0; }
+  .career-quote::after { right: 0; }
+
+  .career-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 48px 0;
+  }
+
+  .career-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--mist);
+  }
+
+  .career-item:first-child {
+    border-top: 1px solid var(--mist);
+  }
+
+  .career-item-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    padding-top: 4px;
+    flex-shrink: 0;
+    width: 32px;
+  }
+
+  .career-item-text {
+    font-size: 0.95rem;
+    line-height: 2;
+    color: #444;
+  }
+
+  /* ── UNDER CONSTRUCTION ── */
+  .section-wip {
+    background: var(--forest);
+    padding: 120px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wip-bg {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 120px,
+      rgba(255,255,255,0.02) 120px,
+      rgba(255,255,255,0.02) 121px
+    );
+  }
+
+  .wip-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .wip-label {
+    display: inline-block;
+    border: 1px solid rgba(200,168,75,0.5);
+    color: var(--gold-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    padding: 8px 20px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+
+  .wip-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  .wip-body {
+    font-size: 0.95rem;
+    line-height: 2.2;
+    color: rgba(255,255,255,0.6);
+    max-width: 580px;
+    margin: 0 auto 24px;
+  }
+
+  .wip-highlight {
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  /* ── WHY NOW ── */
+  .section-why {
+    background: var(--warm-white);
+    padding: 120px 24px;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 64px;
+  }
+
+  .why-card {
+    padding: 40px 36px;
+    border: 1px solid var(--mist);
+    position: relative;
+  }
+
+  .why-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--gold), var(--sage));
+  }
+
+  .why-card-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  .why-card-body {
+    font-size: 0.88rem;
+    line-height: 2.1;
+    color: #555;
+  }
+
+  /* ── SAFE SPACE ── */
+  .section-safe {
+    background: var(--cream);
+    padding: 120px 24px;
+  }
+
+  .safe-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .safe-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 28px;
+    background: var(--warm-white);
+  }
+
+  .safe-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--forest), var(--sage));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+    font-size: 0.8rem;
+  }
+
+  .safe-text {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: #444;
+  }
+
+  /* ── FEATURES ── */
+  .section-features {
+    background: var(--warm-white);
+    padding: 120px 24px;
+  }
+
+  .features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 56px;
+  }
+
+  .feature-row {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    align-items: start;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--mist);
+  }
+
+  .feature-row:first-child { border-top: 1px solid var(--mist); }
+
+  .feature-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1;
+  }
+
+  .feature-content-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 8px;
+  }
+
+  .feature-content-body {
+    font-size: 0.88rem;
+    line-height: 2;
+    color: #666;
+  }
+
+  /* ── FOUNDER ── */
+  .section-founder {
+    background: var(--forest);
+    padding: 120px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 80px;
+    align-items: start;
+    position: relative;
+    z-index: 2;
+  }
+
+  .founder-img-wrap {
+    position: relative;
+  }
+
+  .founder-img-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(145deg, rgba(138,170,96,0.2), rgba(45,80,22,0.4));
+    border: 1px solid rgba(200,168,75,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .founder-img-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: brightness(0.95) contrast(1.05);
+    mix-blend-mode: luminosity;
+    opacity: 0.85;
+  }
+
+  .founder-img-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(45,80,22,0.6) 0%, transparent 60%);
+  }
+
+  .founder-gold-line {
+    position: absolute;
+    bottom: -16px;
+    right: -16px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(200,168,75,0.2);
+    pointer-events: none;
+  }
+
+  .founder-content {
+    padding-top: 12px;
+  }
+
+  .founder-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--moss);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .founder-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.8;
+    margin-bottom: 36px;
+  }
+
+  .founder-title em {
+    font-style: normal;
+    color: var(--gold-light);
+  }
+
+  .founder-body {
+    font-size: 0.92rem;
+    line-height: 2.3;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 16px;
+  }
+
+  .founder-sig {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .founder-sig-company {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 6px;
+  }
+
+  .founder-sig-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+  }
+
+  /* ── FINAL CTA ── */
+  .section-cta {
+    background: var(--ink);
+    padding: 160px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-orb {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(45,80,22,0.4) 0%, transparent 60%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--moss);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .cta-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .cta-sub {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 2;
+    margin-bottom: 56px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .btn-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, var(--gold) 0%, #b8922a 100%);
+    color: #1a1200;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 22px 56px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 16px 48px rgba(200,168,75,0.25);
+  }
+
+  .btn-large:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 60px rgba(200,168,75,0.4);
+  }
+
+  .btn-arrow {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .cta-notes {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.1em;
+    line-height: 2;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0d0d0d;
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.3em;
+  }
+
+  .footer-copy {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav { padding: 20px 24px; }
+    .hero-body { padding: 20px 20px 40px; }
+
+    .three-col { grid-template-columns: 1fr; }
+
+    .why-grid { grid-template-columns: 1fr; gap: 24px; }
+
+    .safe-grid { grid-template-columns: 1fr; }
+
+    .founder-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .founder-img-frame { max-width: 260px; }
+    .founder-img-wrap { display: flex; justify-content: center; }
+
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="hero-bg-lines"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+
+  <nav class="nav">
+    <div class="nav-logo">Re-CC</div>
+    <div class="nav-badge">無料参加・審査制</div>
+  </nav>
+
+  <div class="hero-body">
+    <div class="hero-eyebrow">教員・元教員のためのコミュニティ</div>
+    <h1 class="hero-title">
+      「今」も<em>これから</em>も、<br>
+      一人で<br>考えない。
+    </h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">
+      辞める・辞めないを決める場所ではありません。<br>
+      教員としての「今」と「これから」を、<br>
+      安心して考えるためのコミュニティです。
+    </p>
+    <div class="hero-cta-wrap">
+      <a href="https://utage-system.com/r/U3pfsCW9eCUs/register" class="btn-primary">
+        今すぐ無料で参加する
+        <span>→</span>
+      </a>
+      <span class="btn-note">紹介制・現在参加費無料</span>
+    </div>
+  </div>
+
+  <div class="hero-footer">
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ VIDEO ══════════ -->
+<section style="background:#0f1a09; padding: 80px 24px; text-align:center;">
+  <div style="max-width:760px; margin:0 auto;">
+    <div style="font-size:0.65rem; letter-spacing:0.4em; color:#8aaa60; text-transform:uppercase; margin-bottom:24px;" class="reveal">まずはこちらをご覧ください</div>
+    <div style="position:relative; width:100%; padding-top:56.25%; border:1px solid rgba(200,168,75,0.2); box-shadow: 0 24px 80px rgba(0,0,0,0.5);" class="reveal">
+      <iframe
+        src="https://utage-system.com/video/X4akTlwdFUhr"
+        style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"
+        allowfullscreen
+        allow="autoplay; fullscreen">
+      </iframe>
+    </div>
+    <p style="font-size:0.7rem; color:rgba(255,255,255,0.25); margin-top:16px; letter-spacing:0.1em;" class="reveal">※ 1.5倍速推奨</p>
+  </div>
+</section>
+
+<!-- ══════════ NOT ABOUT QUITTING ══════════ -->
+<section class="section-clarify">
+  <div class="container">
+    <div class="section-label reveal">
+      <div class="section-label-line"></div>
+      <div class="section-label-text">What Re-CC is</div>
+    </div>
+    <h2 class="clarify-lead reveal">
+      これは「辞める・辞めない」の<br>
+      話では<strong>ありません</strong>。
+    </h2>
+    <p class="clarify-body reveal">
+      Re-CCは、教員を辞めたい人のためだけの場所ではありません。<br>
+      続ける選択にも、立ち止まって考える時間にも、どちらにも意味があると考えています。
+    </p>
+
+    <div class="three-col reveal">
+      <div class="three-col-item">
+        <span class="three-col-icon">🌿</span>
+        <div class="three-col-title">このまま教員を<br>続けていく人</div>
+      </div>
+      <div class="three-col-item">
+        <span class="three-col-icon">🌤</span>
+        <div class="three-col-title">続けるかどうかを<br>迷っている人</div>
+      </div>
+      <div class="three-col-item">
+        <span class="three-col-icon">🌱</span>
+        <div class="three-col-title">すでに教員を<br>離れた人</div>
+      </div>
+    </div>
+
+    <p class="clarify-body reveal">
+      どの立場の方も、Re-CCの当事者です。<br>
+      教員としての「今」と「これから」を、安心して考えるためのコミュニティです。
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ CAREER DEFINITION ══════════ -->
+<section class="section-career">
+  <div class="container">
+    <div class="section-label reveal">
+      <div class="section-label-line"></div>
+      <div class="section-label-text">Re-CC's definition of career</div>
+    </div>
+    <h2 class="clarify-lead reveal">Re-CCが考える<br>「キャリア」とは</h2>
+
+    <div class="career-items reveal">
+      <div class="career-item">
+        <div class="career-item-num">01</div>
+        <div class="career-item-text">今の働き方を、このまま続けていいのか</div>
+      </div>
+      <div class="career-item">
+        <div class="career-item-num">02</div>
+        <div class="career-item-text">今の環境で、自分は消耗しすぎていないか</div>
+      </div>
+      <div class="career-item">
+        <div class="career-item-num">03</div>
+        <div class="career-item-text">続けるなら、どう続けていきたいのか</div>
+      </div>
+    </div>
+
+    <p class="clarify-body reveal">
+      転職や退職だけが「キャリア」ではありません。<br>
+      自分の「これから」を考えることそのものを、キャリアだと捉えています。
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ UNDER CONSTRUCTION ══════════ -->
+<section class="section-wip">
+  <div class="wip-bg"></div>
+  <div class="wip-content container">
+    <div class="wip-label reveal">Currently Building</div>
+    <h2 class="wip-title reveal">
+      このコミュニティは、<br>
+      まだ完成していません。
+    </h2>
+    <p class="wip-body reveal">
+      Re-CCは、すでに完成されたサービスや整ったプログラムではありません。<br>
+      現在は構築途中で、<span class="wip-highlight">これから一緒に形をつくっていく段階</span>です。
+    </p>
+    <p class="wip-body reveal">
+      だからこそ、「何かを受け取る人」ではなく<br>
+      <span class="wip-highlight">「場を育てる一人」</span>として関わっていただけたらと思っています。
+    </p>
+  </div>
+</section>
+
+<!-- ══════════ WHY NOW ══════════ -->
+<section class="section-why">
+  <div class="container-wide">
+    <div class="container">
+      <div class="section-label reveal">
+        <div class="section-label-line"></div>
+        <div class="section-label-text">Why we started now</div>
+      </div>
+      <h2 class="clarify-lead reveal">
+        それでも今スタートした理由
+      </h2>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-card-title">教員のキャリアの悩みは、<br>あまりにも一人で抱え込まれている</div>
+        <div class="why-card-body">
+          キャリアの話を、安心して、否定されずに、ゆっくり考えられる場があまりにも少ないと感じています。
+        </div>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-card-title">教員という仕事の<br>特殊さゆえのつまずき</div>
+        <div class="why-card-body">
+          世界が狭くなりやすい。情報源が限られやすい。評価や常識が独特。この感覚は、辞める・辞めないに関係なく、多くの先生が抱えています。
+        </div>
+      </div>
+      <div class="why-card reveal reveal-delay-3">
+        <div class="why-card-title">正しい情報が<br>わからない混乱</div>
+        <div class="why-card-body">
+          何が正しい情報かわからない。極端な意見に振り回されてしまう。発信すると教員叩きにあうことがある。教員ゆえのつまずきが少なくありません。
+        </div>
+      </div>
+      <div class="why-card reveal reveal-delay-4">
+        <div class="why-card-title">元教員にも、<br>居場所が必要</div>
+        <div class="why-card-body">
+          教員を離れたあと「もう教員コミュニティにいていいのかな」と感じる方も。でも元教員だからこそ見えること・言えることがあります。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SAFE SPACE ══════════ -->
+<section class="section-safe">
+  <div class="container">
+    <div class="section-label reveal">
+      <div class="section-label-line"></div>
+      <div class="section-label-text">A safe and secure place</div>
+    </div>
+    <h2 class="clarify-lead reveal">
+      「安心・安全」を<br>最優先にしています
+    </h2>
+    <p class="clarify-body reveal">
+      続けるかどうかをまだ決めていなくても、ここにいて大丈夫な場所でありたいと思っています。
+    </p>
+
+    <div class="safe-grid">
+      <div class="safe-item reveal reveal-delay-1">
+        <div class="safe-icon">✓</div>
+        <div class="safe-text">正解を急がなくていい</div>
+      </div>
+      <div class="safe-item reveal reveal-delay-2">
+        <div class="safe-icon">✓</div>
+        <div class="safe-text">結論を出さなくていい</div>
+      </div>
+      <div class="safe-item reveal reveal-delay-3">
+        <div class="safe-icon">✓</div>
+        <div class="safe-text">発信しなくていい</div>
+      </div>
+      <div class="safe-item reveal reveal-delay-4">
+        <div class="safe-icon">✓</div>
+        <div class="safe-text">ただ考えるだけでもいい</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FEATURES ══════════ -->
+<section class="section-features">
+  <div class="container">
+    <div class="section-label reveal">
+      <div class="section-label-line"></div>
+      <div class="section-label-text">What's inside Re-CC</div>
+    </div>
+    <h2 class="clarify-lead reveal">Re-CCでできること</h2>
+    <p class="clarify-body reveal">
+      すべてに参加する必要はありません。今の自分に必要な距離感で関われる設計です。
+    </p>
+
+    <div class="features-list">
+      <div class="feature-row reveal">
+        <div class="feature-num">01</div>
+        <div>
+          <div class="feature-content-title">キャリアについて考えるチャンネル</div>
+          <div class="feature-content-body">今の自分の状況を整理し、一人で考え込まずに話せる場所。</div>
+        </div>
+      </div>
+      <div class="feature-row reveal">
+        <div class="feature-num">02</div>
+        <div>
+          <div class="feature-content-title">経験者の話を聞く場</div>
+          <div class="feature-content-body">実際に教員を続けた人・離れた人、両方のリアルな声に触れられます。</div>
+        </div>
+      </div>
+      <div class="feature-row reveal">
+        <div class="feature-num">03</div>
+        <div>
+          <div class="feature-content-title">情報を整理・共有する場</div>
+          <div class="feature-content-body">信頼できる情報を集め、整理し、みんなで共有していく場所。</div>
+        </div>
+      </div>
+      <div class="feature-row reveal">
+        <div class="feature-num">04</div>
+        <div>
+          <div class="feature-content-title">実践や運営に関わるプロジェクト</div>
+          <div class="feature-content-body">「受け取るだけ」ではなく、場を一緒に育てる参加のかたちも。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOUNDER ══════════ -->
+<section class="section-founder">
+  <div class="container-wide">
+    <div class="founder-grid">
+      <div class="founder-img-wrap reveal">
+        <div class="founder-img-frame">
+          <img src="https://utagesystem.s3.ap-northeast-1.amazonaws.com/jOAayAuckrM0/ygKU3Rnh4IdR/4hCYUPGFWqfNmTR2v09pLqlZnXdiF2ukPY7L2ntF.jpg" alt="新川紗世"
+            onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.2);font-size:0.8rem;letter-spacing:0.2em;\'>新川紗世</div>'">
+        </div>
+        <div class="founder-gold-line"></div>
+      </div>
+
+      <div class="founder-content reveal">
+        <div class="founder-label">From the Founder</div>
+        <h2 class="founder-title">
+          「辞める・辞めない」で<br>
+          <em>人が分断されない場所</em>が<br>
+          必要だと思っています。
+        </h2>
+        <p class="founder-body">
+          私自身、教員として働き、そして教員を離れる経験もしてきました。続けるしんどさも、辞める前の不安も、どちらも経験しています。
+        </p>
+        <p class="founder-body">
+          Re-CCは、正解を教える場ではなく、考え続けるための「土台」としてつくっています。
+        </p>
+        <div class="founder-sig">
+          <div class="founder-sig-company">Re-Career 株式会社 代表取締役</div>
+          <div class="founder-sig-name">新川 紗世</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FINAL CTA ══════════ -->
+<section class="section-cta" id="register">
+  <div class="cta-orb"></div>
+  <div class="cta-inner">
+    <div class="cta-eyebrow reveal">Join Re-CC</div>
+    <h2 class="cta-title reveal">
+      「今」も【これから】も、<br>
+      一人で考えないために。
+    </h2>
+    <p class="cta-sub reveal">
+      立ち止まって考えたいとき。<br>
+      続ける選択に不安を感じたとき。<br>
+      教員を離れて、居場所がないと感じたとき。<br>
+      そんなときに、「一人じゃない」と思える場所でありたい。
+    </p>
+    <div class="cta-btn-wrap">
+      <a href="https://utage-system.com/r/U3pfsCW9eCUs/register" class="btn-large reveal">
+        今すぐ無料で参加する
+        <span class="btn-arrow">→</span>
+      </a>
+      <div class="cta-notes reveal">
+        ※登録後、すぐに参加が確定するわけではありません<br>
+        ※紹介者の確認を行う場合があります
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-logo">Re-CC</div>
+  <div class="footer-copy">© 2026 Re-Career株式会社</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
