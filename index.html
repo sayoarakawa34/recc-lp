@@ -448,6 +448,138 @@
     color: var(--text-mute);
   }
 
+  /* ── TOOLS ── */
+  .tools-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green-deep);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 999px;
+    letter-spacing: 0.1em;
+    margin-bottom: 22px;
+  }
+  .tools-banner-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #ffd863;
+    display: inline-block;
+    box-shadow: 0 0 0 3px rgba(255,216,99,0.25);
+  }
+
+  .tools-cta {
+    text-align: center;
+    margin-top: 64px;
+    padding: 44px 28px;
+    background: var(--green-pale);
+    border: 1px solid var(--green-soft);
+    border-radius: 14px;
+  }
+  .tools-cta-text {
+    font-size: 1rem;
+    color: var(--text-body);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .tools-cta-text strong {
+    color: var(--green-deep);
+    font-weight: 700;
+  }
+
+  .tools-group {
+    margin-bottom: 56px;
+  }
+  .tools-group:last-child { margin-bottom: 0; }
+
+  .tools-group-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--green-deep);
+    margin-bottom: 22px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--green-soft);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .tools-group-title::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 18px;
+    background: var(--green-deep);
+    border-radius: 2px;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .tool-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px 20px;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .tool-card.live {
+    background: var(--green-pale);
+    border-color: var(--green-soft);
+  }
+  .tool-card.live:hover {
+    border-color: var(--green-light);
+    box-shadow: 0 6px 18px rgba(31,77,46,0.1);
+    transform: translateY(-1px);
+  }
+  .tool-card.coming {
+    background: var(--bg-soft);
+    border-style: dashed;
+  }
+
+  .tool-badge {
+    flex-shrink: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 4px 9px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .tool-badge.live {
+    background: var(--green-deep);
+    color: #fff;
+  }
+  .tool-badge.coming {
+    background: var(--line-strong);
+    color: var(--text-mute);
+  }
+
+  .tool-info { flex: 1; min-width: 0; }
+  .tool-name {
+    font-size: 0.96rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+  .tool-desc {
+    font-size: 0.83rem;
+    line-height: 1.7;
+    color: var(--text-mute);
+  }
+
   /* ── FOUNDER ── */
   .founder-card {
     background: #fff;
@@ -621,6 +753,7 @@
   @media (max-width: 860px) {
     .info-grid { grid-template-columns: 1fr; }
     .target-grid { grid-template-columns: 1fr; }
+    .tools-grid { grid-template-columns: 1fr; }
     .founder-card {
       grid-template-columns: 1fr;
       padding: 36px 28px;
@@ -834,8 +967,189 @@
   </div>
 </section>
 
-<!-- ══════════ FOUNDER ══════════ -->
+<!-- ══════════ TOOLS ══════════ -->
 <section class="sec white">
+  <div class="container">
+    <div class="sec-head-center">
+      <div class="tools-banner"><span class="tools-banner-dot"></span>Members Only / メンバー限定特典</div>
+      <div class="sec-eyebrow">Tools</div>
+      <h2 class="sec-title">Re-CCメンバーだけが、<br>すべて<span class="green">無料</span>で使える。</h2>
+      <p class="sec-lead">
+        教員のキャリアを考えるための診断・シミュレーター・テンプレートが揃っています。<br>
+        Re-CCに参加すれば、すべてのツールを追加料金なしで利用できます（順次拡充中）。
+      </p>
+    </div>
+
+    <div class="tools-group">
+      <div class="tools-group-title">自己理解（すべての教員経験者へ）</div>
+      <div class="tools-grid">
+        <a href="https://utage-system.com/p/GWa4IkmhQrXt" target="_blank" rel="noopener" class="tool-card live">
+          <span class="tool-badge live">Live</span>
+          <div class="tool-info">
+            <div class="tool-name">先生のキャリア診断</div>
+            <div class="tool-desc">今のキャリア状態をサクッと把握</div>
+          </div>
+        </a>
+        <a href="https://utage-system.com/p/ltjKhn0tqwir" target="_blank" rel="noopener" class="tool-card live">
+          <span class="tool-badge live">Live</span>
+          <div class="tool-info">
+            <div class="tool-name">先生の強み診断</div>
+            <div class="tool-desc">教員として培ってきた強みを可視化</div>
+          </div>
+        </a>
+        <a href="https://utage-system.com/p/YLxK0FOt56gj" target="_blank" rel="noopener" class="tool-card live">
+          <span class="tool-badge live">Live</span>
+          <div class="tool-info">
+            <div class="tool-name">先生の仕事適性診断</div>
+            <div class="tool-desc">向いている働き方・職種を診断</div>
+          </div>
+        </a>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">燃え尽きリスク診断</div>
+            <div class="tool-desc">バーンアウトの早期サインをチェック</div>
+          </div>
+        </div>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">5年後の自分シート</div>
+            <div class="tool-desc">これからの自分像を書き出して整理</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools-group">
+      <div class="tools-group-title">続ける選択を支える</div>
+      <div class="tools-grid">
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">ストレスマネジメント診断</div>
+            <div class="tool-desc">教員特化のストレス傾向と対処法</div>
+          </div>
+        </div>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">ワークライフバランス診断</div>
+            <div class="tool-desc">仕事と暮らしの配分をセルフチェック</div>
+          </div>
+        </div>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">業務効率化チェック</div>
+            <div class="tool-desc">日々の業務の見直しポイントを発見</div>
+          </div>
+        </div>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">モチベーション維持診断</div>
+            <div class="tool-desc">続ける力を保つ自分のスイッチを把握</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools-group">
+      <div class="tools-group-title">変える選択を支える</div>
+      <div class="tools-grid">
+        <a href="https://moshimo-career.vercel.app" target="_blank" rel="noopener" class="tool-card live">
+          <span class="tool-badge live">Live</span>
+          <div class="tool-info">
+            <div class="tool-name">もしもキャリア</div>
+            <div class="tool-desc">気になる求人を貼ると、教員経験との相性をAIが60秒で診断</div>
+          </div>
+        </a>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">転職タイプ診断</div>
+            <div class="tool-desc">民間／教育周辺／独立、向いている方向は</div>
+          </div>
+        </div>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">自己PR翻訳ツール</div>
+            <div class="tool-desc">教員語を民間採用語にコンバート</div>
+          </div>
+        </div>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">教員→民間 年収シナリオ</div>
+            <div class="tool-desc">転職後のリアルな数字を可視化</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools-group">
+      <div class="tools-group-title">戻る選択を支える</div>
+      <div class="tools-grid">
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">復職準備度チェック</div>
+            <div class="tool-desc">教員に戻る前のセルフチェック</div>
+          </div>
+        </div>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">教員復帰ステップガイド</div>
+            <div class="tool-desc">手続き・心構え・タイミングの整理</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools-group">
+      <div class="tools-group-title">お金・ライフ全般</div>
+      <div class="tools-grid">
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">退職金シミュレーター</div>
+            <div class="tool-desc">年齢×勤続年数で試算</div>
+          </div>
+        </div>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">NISA／iDeCo活用シミュレーター</div>
+            <div class="tool-desc">公務員向けの資産形成プラン</div>
+          </div>
+        </div>
+        <div class="tool-card coming">
+          <span class="tool-badge coming">Soon</span>
+          <div class="tool-info">
+            <div class="tool-name">ライフキャリアプランニングシート</div>
+            <div class="tool-desc">仕事と人生を一枚で見渡す</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools-cta">
+      <p class="tools-cta-text">
+        これらのツールは、<strong>Re-CCメンバー限定で無料</strong>。<br>
+        参加費もずっと無料です。
+      </p>
+      <a href="https://utage-system.com/r/U3pfsCW9eCUs/register" class="btn-primary">
+        無料で参加する <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOUNDER ══════════ -->
+<section class="sec gray">
   <div class="container">
     <div class="sec-head-center">
       <div class="sec-eyebrow">Founder</div>
