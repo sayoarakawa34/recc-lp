@@ -63,12 +63,46 @@
     justify-content: space-between;
   }
 
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-img {
+    width: 38px;
+    height: 38px;
+    display: block;
+  }
   .logo {
     font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--green-deep);
     letter-spacing: 0.04em;
+  }
+  .hero-logo {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 28px;
+    display: block;
+  }
+  .cta-logo {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 28px;
+    display: block;
+  }
+  .footer-logo-img {
+    width: 32px;
+    height: 32px;
+    display: block;
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+  }
+  .footer-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .logo-tag {
@@ -780,7 +814,8 @@
 <!-- ══════════ HEADER ══════════ -->
 <header class="header">
   <div class="header-inner">
-    <div>
+    <div class="logo-wrap">
+      <img src="logo.png" alt="Re-CC" class="logo-img">
       <span class="logo">Re-CC</span>
       <span class="logo-tag">教員経験者のためのキャリア情報プラットフォーム</span>
     </div>
@@ -791,6 +826,7 @@
 <!-- ══════════ HERO ══════════ -->
 <section class="hero">
   <div class="hero-inner">
+    <img src="logo.png" alt="Re-CC" class="hero-logo">
     <div class="hero-badge">無料参加・審査制</div>
     <h1 class="hero-title">
       続ける選択も、変える選択も、<br>
@@ -1180,6 +1216,7 @@
 <!-- ══════════ FINAL CTA ══════════ -->
 <section class="cta-section" id="register">
   <div class="cta-inner">
+    <img src="logo.png" alt="Re-CC" class="cta-logo">
     <div class="cta-eyebrow">Join Re-CC</div>
     <h2 class="cta-title">
       続ける選択も、変える選択も、戻る選択も。<br>
@@ -1202,7 +1239,10 @@
 <!-- ══════════ FOOTER ══════════ -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo">Re-CC</div>
+    <div class="footer-logo-wrap">
+      <img src="logo-mono.png" alt="Re-CC" class="footer-logo-img">
+      <div class="footer-logo">Re-CC</div>
+    </div>
     <div class="footer-copy">© 2026 Re-Career株式会社</div>
   </div>
 </footer>
